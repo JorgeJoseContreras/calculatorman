@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>calculatorman.com</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .calculator {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .calculator:hover {
+            transform: translateY(-5px);
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        input[type="number"], select {
+            width: 100px;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus, select:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #27ae60;
+            font-weight: bold;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .contact {
+            font-size: 0.7em;
+            margin-top: 5px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            input[type="number"], select {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>calculatorman.com</h1>
+    <div class="container">
+        <div class="calculator">
+            <h2>Basic Calculator</h2>
+            <input type="number" id="basicNum1" placeholder="First number">
+            <input type="number" id="basicNum2" placeholder="Second number">
+            <div>
+                <button onclick="basicCalculate('+')">+</button>
+                <button onclick="basicCalculate('-')">-</button>
+                <button onclick="basicCalculate('*')">×</button>
+                <button onclick="basicCalculate('/')">÷</button>
+            </div>
+            <div id="basicResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Percentage Calculator</h2>
+            <input type="number" id="percentNum" placeholder="Number">
+            <input type="number" id="percentValue" placeholder="Percentage">
+            <button onclick="percentCalculate()">Calculate %</button>
+            <div id="percentResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Tip Calculator</h2>
+            <input type="number" id="billAmount" placeholder="Bill Amount">
+            <input type="number" id="tipPercent" placeholder="Tip %">
+            <button onclick="tipCalculate()">Calculate Tip</button>
+            <div id="tipResult" class="result">Tip: 0 | Total: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>BMI Calculator</h2>
+            <input type="number" id="weight" placeholder="Weight (kg)">
+            <input type="number" id="height" placeholder="Height (m)">
+            <button onclick="bmiCalculate()">Calculate BMI</button>
+            <div id="bmiResult" class="result">BMI: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Loan Payment Calculator</h2>
+            <input type="number" id="loanAmount" placeholder="Loan Amount">
+            <input type="number" id="loanRate" placeholder="Rate %">
+            <input type="number" id="loanTerm" placeholder="Term (years)">
+            <button onclick="loanCalculate()">Calculate Payment</button>
+            <div id="loanResult" class="result">Monthly Payment: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Compound Interest</h2>
+            <input type="number" id="principal" placeholder="Principal">
+            <input type="number" id="rate" placeholder="Rate %">
+            <input type="number" id="times" placeholder="Times/Year">
+            <input type="number" id="years" placeholder="Years">
+            <button onclick="compoundCalculate()">Calculate</button>
+            <div id="compoundResult" class="result">Future Value: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Length Converter</h2>
+            <input type="number" id="lengthValue" placeholder="Value">
+            <select id="fromUnit">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="cm">Centimeters</option>
+                <option value="ft">Feet</option>
+                <option value="in">Inches</option>
+            </select>
+            <select id="toUnit">
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+                <option value="cm">Centimeters</option>
+                <option value="ft">Feet</option>
+                <option value="in">Inches</option>
+            </select>
+            <button onclick="unitConvert()">Convert</button>
+            <div id="unitResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Temperature Converter</h2>
+            <input type="number" id="tempValue" placeholder="Temperature">
+            <select id="fromTemp">
+                <option value="c">Celsius</option>
+                <option value="f">Fahrenheit</option>
+                <option value="k">Kelvin</option>
+            </select>
+            <select id="toTemp">
+                <option value="c">Celsius</option>
+                <option value="f">Fahrenheit</option>
+                <option value="k">Kelvin</option>
+            </select>
+            <button onclick="tempConvert()">Convert</button>
+            <div id="tempResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Savings Goal</h2>
+            <input type="number" id="goalAmount" placeholder="Goal Amount">
+            <input type="number" id="monthlySave" placeholder="Monthly Savings">
+            <button onclick="savingsCalculate()">Calculate Time</button>
+            <div id="savingsResult" class="result">Time: 0 months</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Currency Converter</h2>
+            <input type="number" id="currencyValue" placeholder="Amount">
+            <select id="fromCurrency">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="jpy">JPY</option>
+            </select>
+            <select id="toCurrency">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="jpy">JPY</option>
+            </select>
+            <button onclick="currencyConvert()">Convert</button>
+            <div id="currencyResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Time Duration</h2>
+            <input type="number" id="hours1" placeholder="Hours">
+            <input type="number" id="minutes1" placeholder="Minutes">
+            <input type="number" id="hours2" placeholder="Hours">
+            <input type="number" id="minutes2" placeholder="Minutes">
+            <button onclick="timeCalculate()">Calculate Duration</button>
+            <div id="timeResult" class="result">Duration: 0h 0m</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Area Converter</h2>
+            <input type="number" id="areaValue" placeholder="Value">
+            <select id="fromArea">
+                <option value="sqm">Square Meters</option>
+                <option value="sqkm">Square Kilometers</option>
+                <option value="sqft">Square Feet</option>
+                <option value="acre">Acres</option>
+            </select>
+            <select id="toArea">
+                <option value="sqm">Square Meters</option>
+                <option value="sqkm">Square Kilometers</option>
+                <option value="sqft">Square Feet</option>
+                <option value="acre">Acres</option>
+            </select>
+            <button onclick="areaConvert()">Convert</button>
+            <div id="areaResult" class="result">Result: 0</div>
+        </div>
+
+        <div class="calculator">
+            <h2>Fuel Efficiency</h2>
+            <input type="number" id="fuelValue" placeholder="Value" step="0.1">
+            <select id="fromFuel">
+                <option value="mpg">MPG (Miles/Gallon)</option>
+                <option value="l100km">L/100km</option>
+                <option value="kml">km/L</option>
+            </select>
+            <select id="toFuel">
+                <option value="mpg">MPG (Miles/Gallon)</option>
+                <option value="l100km">L/100km</option>
+                <option value="kml">km/L</option>
+            </select>
+            <button onclick="fuelConvert()">Convert</button>
+            <div id="fuelResult" class="result">Result: 0</div>
+        </div>
+    </div>
+    <footer>
+        © 2025 Adamo Group Holdings Ltd. Co. All rights reserved.
+        <div class="contact">Comments & Suggestions: aghlc.nm@gmail.com</div>
+    </footer>
+
+    <script>
+        function basicCalculate(operator) {
+            let num1 = parseFloat(document.getElementById('basicNum1').value);
+            let num2 = parseFloat(document.getElementById('basicNum2').value);
+            let result;
+            if (isNaN(num1) || isNaN(num2)) {
+                result = "Please enter valid numbers";
+            } else {
+                switch(operator) {
+                    case '+': result = num1 + num2; break;
+                    case '-': result = num1 - num2; break;
+                    case '*': result = num1 * num2; break;
+                    case '/': 
+                        if (num2 === 0) result = "Cannot divide by zero";
+                        else result = num1 / num2;
+                        break;
+                }
+                if (typeof result === 'number') result = result.toFixed(2);
+            }
+            document.getElementById('basicResult').innerText = `Result: ${result}`;
+        }
+
+        function percentCalculate() {
+            let num = parseFloat(document.getElementById('percentNum').value);
+            let percent = parseFloat(document.getElementById('percentValue').value);
+            let result = isNaN(num) || isNaN(percent) ? 
+                "Please enter valid numbers" : 
+                (num * percent / 100).toFixed(2);
+            document.getElementById('percentResult').innerText = `Result: ${result}`;
+        }
+
+        function tipCalculate() {
+            let bill = parseFloat(document.getElementById('billAmount').value);
+            let tip = parseFloat(document.getElementById('tipPercent').value);
+            if (isNaN(bill) || isNaN(tip)) {
+                document.getElementById('tipResult').innerText = "Please enter valid numbers";
+            } else {
+                let tipAmount = (bill * tip / 100).toFixed(2);
+                let total = (bill + parseFloat(tipAmount)).toFixed(2);
+                document.getElementById('tipResult').innerText = 
+                    `Tip: ${tipAmount} | Total: ${total}`;
+            }
+        }
+
+        function bmiCalculate() {
+            let weight = parseFloat(document.getElementById('weight').value);
+            let height = parseFloat(document.getElementById('height').value);
+            let result;
+            if (isNaN(weight) || isNaN(height) || height === 0) {
+                result = "Please enter valid values";
+            } else {
+                result = (weight / (height * height)).toFixed(1);
+            }
+            document.getElementById('bmiResult').innerText = `BMI: ${result}`;
+        }
+
+        function loanCalculate() {
+            let amount = parseFloat(document.getElementById('loanAmount').value);
+            let rate = parseFloat(document.getElementById('loanRate').value) / 100 / 12;
+            let term = parseFloat(document.getElementById('loanTerm').value) * 12;
+            let result;
+            if (isNaN(amount) || isNaN(rate) || isNaN(term)) {
+                result = "Please enter valid values";
+            } else {
+                let payment = (amount * rate * Math.pow(1 + rate, term)) / 
+                            (Math.pow(1 + rate, term) - 1);
+                result = payment.toFixed(2);
+            }
+            document.getElementById('loanResult').innerText = 
+                `Monthly Payment: ${result}`;
+        }
+
+        function compoundCalculate() {
+            let principal = parseFloat(document.getElementById('principal').value);
+            let rate = parseFloat(document.getElementById('rate').value) / 100;
+            let times = parseFloat(document.getElementById('times').value);
+            let years = parseFloat(document.getElementById('years').value);
+            let result;
+            if (isNaN(principal) || isNaN(rate) || isNaN(times) || isNaN(years)) {
+                result = "Please enter valid values";
+            } else {
+                result = (principal * Math.pow(1 + (rate / times), times * years)).toFixed(2);
+            }
+            document.getElementById('compoundResult').innerText = 
+                `Future Value: ${result}`;
+        }
+
+        function unitConvert() {
+            let value = parseFloat(document.getElementById('lengthValue').value);
+            let fromUnit = document.getElementById('fromUnit').value;
+            let toUnit = document.getElementById('toUnit').value;
+            let result;
+
+            if (isNaN(value)) {
+                result = "Please enter a valid number";
+            } else {
+                let meters;
+                switch(fromUnit) {
+                    case 'm': meters = value; break;
+                    case 'km': meters = value * 1000; break;
+                    case 'cm': meters = value / 100; break;
+                    case 'ft': meters = value * 0.3048; break;
+                    case 'in': meters = value * 0.0254; break;
+                }
+                switch(toUnit) {
+                    case 'm': result = meters; break;
+                    case 'km': result = meters / 1000; break;
+                    case 'cm': result = meters * 100; break;
+                    case 'ft': result = meters / 0.3048; break;
+                    case 'in': result = meters / 0.0254; break;
+                }
+                result = result.toFixed(4);
+            }
+            document.getElementById('unitResult').innerText = 
+                `Result: ${result} ${toUnit}`;
+        }
+
+        function tempConvert() {
+            let value = parseFloat(document.getElementById('tempValue').value);
+            let fromTemp = document.getElementById('fromTemp').value;
+            let toTemp = document.getElementById('toTemp').value;
+            let result;
+
+            if (isNaN(value)) {
+                result = "Please enter a valid number";
+            } else {
+                let celsius;
+                switch(fromTemp) {
+                    case 'c': celsius = value; break;
+                    case 'f': celsius = (value - 32) * 5/9; break;
+                    case 'k': celsius = value - 273.15; break;
+                }
+                switch(toTemp) {
+                    case 'c': result = celsius; break;
+                    case 'f': result = (celsius * 9/5) + 32; break;
+                    case 'k': result = celsius + 273.15; break;
+                }
+                result = result.toFixed(2);
+            }
+            document.getElementById('tempResult').innerText = 
+                `Result: ${result} °${toTemp.toUpperCase()}`;
+        }
+
+        function savingsCalculate() {
+            let goal = parseFloat(document.getElementById('goalAmount').value);
+            let monthly = parseFloat(document.getElementById('monthlySave').value);
+            let result;
+
+            if (isNaN(goal) || isNaN(monthly) || monthly <= 0) {
+                result = "Please enter valid values";
+            } else {
+                result = Math.ceil(goal / monthly);
+            }
+            document.getElementById('savingsResult').innerText = 
+                `Time: ${result} months`;
+        }
+
+        function currencyConvert() {
+            let value = parseFloat(document.getElementById('currencyValue').value);
+            let fromCurrency = document.getElementById('fromCurrency').value;
+            let toCurrency = document.getElementById('toCurrency').value;
+            let result;
+
+            if (isNaN(value)) {
+                result = "Please enter a valid number";
+            } else {
+                const rates = {
+                    usd: 1,
+                    eur: 0.92,
+                    gbp: 0.79,
+                    jpy: 150.50
+                };
+                let usdValue;
+                switch(fromCurrency) {
+                    case 'usd': usdValue = value; break;
+                    case 'eur': usdValue = value / rates.eur; break;
+                    case 'gbp': usdValue = value / rates.gbp; break;
+                    case 'jpy': usdValue = value / rates.jpy; break;
+                }
+                switch(toCurrency) {
+                    case 'usd': result = usdValue; break;
+                    case 'eur': result = usdValue * rates.eur; break;
+                    case 'gbp': result = usdValue * rates.gbp; break;
+                    case 'jpy': result = usdValue * rates.jpy; break;
+                }
+                result = result.toFixed(2);
+            }
+            document.getElementById('currencyResult').innerText = 
+                `Result: ${result} ${toCurrency.toUpperCase()}`;
+        }
+
+        function timeCalculate() {
+            let hours1 = parseFloat(document.getElementById('hours1').value) || 0;
+            let minutes1 = parseFloat(document.getElementById('minutes1').value) || 0;
+            let hours2 = parseFloat(document.getElementById('hours2').value) || 0;
+            let minutes2 = parseFloat(document.getElementById('minutes2').value) || 0;
+
+            let totalMinutes1 = (hours1 * 60) + minutes1;
+            let totalMinutes2 = (hours2 * 60) + minutes2;
+            let diffMinutes = Math.abs(totalMinutes1 - totalMinutes2);
+
+            let hours = Math.floor(diffMinutes / 60);
+            let minutes = diffMinutes % 60;
+
+            document.getElementById('timeResult').innerText = 
+                `Duration: ${hours}h ${minutes}m`;
+        }
+
+        function areaConvert() {
+            let value = parseFloat(document.getElementById('areaValue').value);
+            let fromArea = document.getElementById('fromArea').value;
+            let toArea = document.getElementById('toArea').value;
+            let result;
+
+            if (isNaN(value)) {
+                result = "Please enter a valid number";
+            } else {
+                let sqm;
+                switch(fromArea) {
+                    case 'sqm': sqm = value; break;
+                    case 'sqkm': sqm = value * 1000000; break;
+                    case 'sqft': sqm = value * 0.092903; break;
+                    case 'acre': sqm = value * 4046.86; break;
+                }
+                switch(toArea) {
+                    case 'sqm': result = sqm; break;
+                    case 'sqkm': result = sqm / 1000000; break;
+                    case 'sqft': result = sqm / 0.092903; break;
+                    case 'acre': result = sqm / 4046.86; break;
+                }
+                result = result.toFixed(4);
+            }
+            document.getElementById('areaResult').innerText = 
+                `Result: ${result} ${toArea}`;
+        }
+
+        function fuelConvert() {
+            let value = parseFloat(document.getElementById('fuelValue').value);
+            let fromFuel = document.getElementById('fromFuel').value;
+            let toFuel = document.getElementById('toFuel').value;
+            let result;
+
+            if (isNaN(value) || value <= 0) {
+                result = "Please enter a positive number";
+            } else {
+                const MPG_TO_L100KM = 235.214583;
+                const KM_TO_MILES = 0.621371;
+                const LITERS_TO_GALLONS = 0.264172;
+
+                let mpg;
+                switch(fromFuel) {
+                    case 'mpg': 
+                        mpg = value; 
+                        break;
+                    case 'l100km': 
+                        mpg = MPG_TO_L100KM / value; 
+                        break;
+                    case 'kml': 
+                        mpg = value / (KM_TO_MILES * LITERS_TO_GALLONS); 
+                        break;
+                }
+
+                switch(toFuel) {
+                    case 'mpg': 
+                        result = mpg; 
+                        break;
+                    case 'l100km': 
+                        result = MPG_TO_L100KM / mpg; 
+                        break;
+                    case 'kml': 
+                        result = mpg * KM_TO_MILES * LITERS_TO_GALLONS; 
+                        break;
+                }
+
+                result = result.toFixed(toFuel === 'mpg' ? 1 : 2);
+            }
+
+            document.getElementById('fuelResult').innerText = 
+                `Result: ${result} ${toFuel === 'mpg' ? 'MPG' : toFuel === 'l100km' ? 'L/100km' : 'km/L'}`;
+        }
+    </script>
+</body>
+</html>
